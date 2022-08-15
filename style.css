@@ -1,0 +1,23 @@
+body{
+    background-color: #1e1e1e;
+    color: #fff;
+}
+header{
+    text-align: center;
+    height: 4rem;
+}
+header.h1{
+
+
+    background-color:#fff;
+    color: #1e1e1e;
+}
+#msg-box{
+    padding: 20px 0;
+    margin: 20px 0;
+    text-align: center;
+    border:2px solid #fff;
+}
+img{
+    width:10rem;
+}
