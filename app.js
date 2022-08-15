@@ -2,12 +2,16 @@ const app =new Vue({
     el: '#app',
     data:{
         isGameRunning: false,
+        isGameEnded: true,
         playerPoints: 0,
         dealerPoints: 0,
         playerHand: [],
         dealerHand:[],
         deck: [],
-        cardSwitch: []
+        middle_text:"Make Your Move",
+        cardSwitch: [],
+        playerMoney:24,
+        playerBet:0,
     },
     beforeMount(){
         this.deck = this.generateCardPool();
@@ -27,6 +31,9 @@ const app =new Vue({
             }
             this.playerPoints = this.checkHandValue(this.playerHand)
             this.dealerPoints = this.checkHandValue(this.dealerHand)
+            this.playerBet =1;
+            this.playerMoney -=1;
+            this.isGameEnded = false;
 
         },
         generateCardPool(){
@@ -57,7 +64,7 @@ const app =new Vue({
                 let v = parseInt(h.split('_',1)[0]);
                 if (v >=10)
                     v=10;
-                else if (v==1 && value+11<21)
+                else if (v==1 && value+11<=21)
                     v=11;
                 value+=v;
             })
@@ -70,19 +77,48 @@ const app =new Vue({
             this.playerHand= [];
             this.dealerHand= [];
             this.isGameRunning =false;
+            playerBet = 0;
         },
         hit() {
             this.playerHand.push(this.dealCard());
             this.playerPoints = this.checkHandValue(this.playerHand)
+            if(this.playerPoints>21){
+                this.isGameEnded = true;
+                this.middle_text ="Game Over. You Busted";
+            }
         },
         stand(){
-            if (this.dealerPoints <17){
+            while (this.dealerPoints <17 ){
                 this.dealerHand.push(this.dealCard());
                 this.dealerPoints = this.checkHandValue(this.dealerHand)
             }
+            if(this.dealerPoints >21){
+                this.playerMoney += this.playerBet*2;
+                this.middle_text = "Game Over, You Win";
+            }
+            else if(this.playerPoints > this.dealerPoints){
+                this.playerMoney += this.playerBet*2;
+                this.middle_text = "Game Over, You Win";
+            }
+            else if (this.dealerPoints > this.playerPoints){
+
+                this.middle_text = "Game Over, You Lost";
+            }
+            else{
+                this.playerMoney += this.playerBet;
+                this.middle_text = "DRAW!!!";
+            }
+            this.isGameEnded = true;
+
         },
         getPath(card){
             return "./PNG/"+card+".png";
+        },
+        doubleDown(){
+            this.playerBet =2;
+            this.playerMoney-=1;
+            this.hit();
+            this.stand();
         }
 
     }

@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="./bootstrap-5.2.0-dist/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <link rel="stylesheet" href="style.css">
+    <!--fontawesome-->
+    <script src="https://kit.fontawesome.com/565aac5a3e.js" crossorigin="anonymous"></script>
 
     <title>BlackJack</title>
 </head>
@@ -24,30 +26,54 @@
     </div>
 
     <div v-else >
+        <!--dealer-->
         <div>
-            <h1>Dealer: {{dealerPoints}}</h1>
-            <template v-for="card in dealerHand">
-                <img :src="getPath(card)" alt="">
-            </template>
+
+            <div v-if="!isGameEnded">
+                <h1>Dealer</h1>
+                <img src="./PNG/card_back.png" alt="0">
+                <template v-for="card in dealerHand.slice(1)">
+                    <img :src="getPath(card)" alt="">
+                </template>
+            </div>
+            <div v-else>
+                <h1>Dealer: {{dealerPoints}}</h1>
+                <template v-for="card in dealerHand">
+                    <img :src="getPath(card)" alt="">
+                </template>
+            </div>
         </div>
 
+        <div id="msg-box">
+            <h1>{{ middle_text }}</h1>
+        </div>
+        <!--player-->
         <div>
             <h1>You: {{playerPoints}}</h1>
             <template v-for="card in playerHand">
                 <img :src="getPath(card)" alt="">
             </template>
+            <!--buttons-->
+            <div class="my-3" >
+                <button v-if="!isGameEnded" @click="hit" class="btn btn-primary">HIT</button>
+                <button v-if="!isGameEnded" @click="doubleDown" class="btn btn-secondary">DOUBLE DOWN</button>
+                <button v-if="!isGameEnded" @click="stand" class="btn btn-danger">STAND</button>
+                <button @click="clearAndStartNewGame" class="btn btn-success">NEW GAME</button>
+                <button v-if="!isGameEnded" @click="quit" class="btn btn-secondary">QUIT</button>
+                <div class="my-2" >
+                    <h1>
+                        Total Money: {{playerMoney}}
+                        <i class="fa-solid fa-coins mr-5"></i>
+                        Bet: {{playerBet}}
+                        <i class="fa-solid fa-coins"></i>
+                    </h1>
+                </div>
         </div>
-        <div class="my-3">
-            <button @click="hit" class="btn btn-primary">HIT</button>
-            <button @click="stand" class="btn btn-danger">STAND</button>
-            <button @click="clearAndStartNewGame" class="btn btn-success">NEW GAME</button>
-            <button @click="quit" class="btn btn-secondary">QUIT</button>
+
         </div>
 
     </div>
-    <div id="msg-box">
-        <h1>Your Turn</h1>
-    </div>
+
 </div>
 <script src="app.js"></script>
 
