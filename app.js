@@ -24,7 +24,7 @@ const app =new Vue({
 
         },
         startNewGame(){
-            if (money==0){
+            if (this.playerMoney==0){
                 this.middle_text = "You Do not Have any money. You can not play anymore."
                 return
             }
@@ -63,14 +63,22 @@ const app =new Vue({
         },
         checkHandValue(hand){
             let value = 0;
-            hand.map(h=>{
-                let v = parseInt(h.split('_',1)[0]);
-                if (v >=10)
-                    v=10;
-                else if (v==1 && value+11<=21)
-                    v=11;
+            let ones_counter =0;
+            hand.map(h=> {
+                let v = parseInt(h.split('_', 1)[0]);
+                if (v >= 10)
+                    v = 10;
+                else if (v == 1 && value + 11 <= 21) {
+                ones_counter +=1;
+                v = 0;
+                }
                 value+=v;
             })
+            for(let i=0;i<ones_counter;i++){
+                if(this.playerPoints+11>23)
+                    value +=1;
+                else value+=11;
+            }
             return value;
         },
         quit(){
