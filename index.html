@@ -23,6 +23,14 @@
 
     <div class="my-3" v-if="!isGameRunning" @click="startNewGame" >
         <button class="btn btn-primary">START THE GAME</button>
+        <div id="money_section" class="my-2" >
+            <h1>
+                Total Money: {{playerMoney}}
+                <i class="fa-solid fa-coins mr-5"></i>
+                Initial Bet: {{playerBet}}
+                <i class="fa-solid fa-coins"></i>
+            </h1>
+        </div>
     </div>
 
     <div v-else >
@@ -54,19 +62,23 @@
                 <img :src="getPath(card)" alt="">
             </template>
             <!--buttons-->
-            <div class="my-3" >
+            <div class="my-3" id="buttons">
                 <button v-if="!isGameEnded" @click="hit" class="btn btn-primary">HIT</button>
                 <button v-if="!isGameEnded" @click="doubleDown" class="btn btn-secondary">DOUBLE DOWN</button>
                 <button v-if="!isGameEnded" @click="stand" class="btn btn-danger">STAND</button>
                 <button @click="clearAndStartNewGame" class="btn btn-success">NEW GAME</button>
                 <button v-if="!isGameEnded" @click="quit" class="btn btn-secondary">QUIT</button>
-                <div class="my-2" >
+                <div id="money_section" class="my-2" >
                     <h1>
                         Total Money: {{playerMoney}}
                         <i class="fa-solid fa-coins mr-5"></i>
                         Bet: {{playerBet}}
                         <i class="fa-solid fa-coins"></i>
                     </h1>
+                    <div v-if="isGameEnded" >
+                        <button  @click="decreaseBet" class="btn btn-danger mx-2">-</button>
+                        <button @click="increaseBet" class="btn btn-success mx-2">+</button>
+                    </div>
                 </div>
         </div>
 

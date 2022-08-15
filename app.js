@@ -11,7 +11,7 @@ const app =new Vue({
         middle_text:"Make Your Move",
         cardSwitch: [],
         playerMoney:24,
-        playerBet:0,
+        playerBet:1,
     },
     beforeMount(){
         this.deck = this.generateCardPool();
@@ -31,8 +31,7 @@ const app =new Vue({
             }
             this.playerPoints = this.checkHandValue(this.playerHand)
             this.dealerPoints = this.checkHandValue(this.dealerHand)
-            this.playerBet =1;
-            this.playerMoney -=1;
+            this.playerMoney -=this.playerBet;
             this.isGameEnded = false;
 
         },
@@ -77,7 +76,6 @@ const app =new Vue({
             this.playerHand= [];
             this.dealerHand= [];
             this.isGameRunning =false;
-            playerBet = 0;
         },
         hit() {
             this.playerHand.push(this.dealCard());
@@ -114,12 +112,25 @@ const app =new Vue({
         getPath(card){
             return "./PNG/"+card+".png";
         },
-        doubleDown(){
-            this.playerBet =2;
-            this.playerMoney-=1;
+        doubleDown() {
+            if (this.playerMoney - this.playerBet * 2 >= 0) {
+
+            this.playerBet *= 2;
+            this.playerMoney -= thisplayerBet;
             this.hit();
             this.stand();
-        }
+             }
+        },
+        increaseBet(){
+            if(this.playerMoney -this.playerBet >0) {
+                this.playerBet += 1;
+            }
+        },
+        decreaseBet(){
+            if(this.playerBet >1) {
+                this.playerBet -= 1;
+            }
+        },
 
     }
 })

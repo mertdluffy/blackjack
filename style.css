@@ -4,22 +4,26 @@ body{
 }
 header{
     text-align: center;
-    height: 4rem;
+    height: 1rem;
 }
 header.h1{
-
-
     background-color:#fff;
     color: #1e1e1e;
 }
 #msg-box{
-    padding: 20px 0;
-    margin: 20px 0;
+    padding: 10px 0;
+    margin: 5px 0;
     text-align: center;
     border:2px solid #fff;
 }
 img{
-    width:8rem;
+    width:6.5rem;
+}
+#money_section{
+    display: flex;
+}
+#buttons{
+    display: block;
 }
 i{
     color:yellow;
