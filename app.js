@@ -24,6 +24,10 @@ const app =new Vue({
 
         },
         startNewGame(){
+            if (money==0){
+                this.middle_text = "You Do not Have any money. You can not play anymore."
+                return
+            }
             this.isGameRunning = true;
             for(let i=0;i<2;i++){
                 this.playerHand.push(this.dealCard())
