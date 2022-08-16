@@ -24,7 +24,7 @@ const app =new Vue({
 
         },
         startNewGame(){
-            if (this.playerMoney==0){
+            if (this.playerMoney-this.playerBet<0){
                 this.middle_text = "You Do not Have any money. You can not play anymore."
                 return
             }
@@ -35,6 +35,7 @@ const app =new Vue({
             }
             this.playerPoints = this.checkHandValue(this.playerHand)
             this.dealerPoints = this.checkHandValue(this.dealerHand)
+
             this.playerMoney -=this.playerBet;
             this.isGameEnded = false;
 
@@ -70,14 +71,13 @@ const app =new Vue({
                     v = 10;
                 else if (v == 1 && value + 11 <= 21) {
                 ones_counter +=1;
-                v = 0;
+                v = 11;
                 }
                 value+=v;
             })
-            for(let i=0;i<ones_counter;i++){
-                if(this.playerPoints+11>23)
-                    value +=1;
-                else value+=11;
+            while(ones_counter>0 && value>21){
+                ones_counter-=1;
+                value-=10;
             }
             return value;
         },
@@ -126,11 +126,12 @@ const app =new Vue({
         },
         doubleDown() {
             if (this.playerMoney - this.playerBet * 2 >= 0) {
+                this.playerMoney -= this.playerBet;
+                this.playerBet *= 2;
 
-            this.playerBet *= 2;
-            this.playerMoney -= thisplayerBet;
-            this.hit();
-            this.stand();
+                this.hit();
+                if(!this.isGameEnded)
+                    this.stand();
              }
         },
         increaseBet(){
